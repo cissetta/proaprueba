@@ -1,0 +1,49 @@
+1. Crear el proyecto: 
+django-admin starproject miweb
+
+cambia de directorio: cd miweb
+Python manage.py startapp biblioteca
+
+2. Setting: agregar el proyecto nuevo para que sea reconocido dentro de nuestro
+INSTALLED_APPS = [
+    ..,
+    'biblioteca',
+]
+
+3. Inluir las Urls dentro de urls.py 
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('biblioteca.urls')),
+]
+
+4. Creamos las urls de la aplicación, dentro de biblioteca se crea el archivo urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),         # URL raíz para la aplicación biblioteca
+    path('pagina1/', views.pagina1, name='pagina1'), 
+    path('pagina2/', views.pagina2, name='pagina2'), 
+]
+
+5. Luego crear las vistas que se llaman desde la urls:
+from django.shortcuts import render
+from .models import Alumno
+
+# Crear las vistas del Sitio.
+def index(request):
+    alumnos = Alumno.objects.all()
+    print(alumnos)
+    return render(request,'index.html',{'alumnos':alumnos})
+
+def pagina1(request):
+    return render(request,'pagina1.html')
+
+def pagina2(request):
+    return render(request,'pagina2.html')
+
+6. Agregar los HTML que están alojados dentro de la carpeta template:
+
