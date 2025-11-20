@@ -1,13 +1,19 @@
-from django.shortcuts import render
-from .models import Alumno, Libro
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Libro, Alumno
+from .forms import LibroForm, AlumnoForm
 
-# Crear las vistas del Sitio.
-def index(request):
-    print("Index")
-    return render(request,'index.html')
+def inicio(request):
+    total_libros = Libro.objects.count()
+    total_alumnos = Alumno.objects.count()
+    return render(request, 'inicio.html', {
+        'total_libros': total_libros,
+        'total_alumnos': total_alumnos
+    })
 
-def pagina1(request):
-    return render(request,'pagina1.html')
+def lista_libros(request):
+    libros = Libro.objects.all()
+    return render(request, 'lista_libros.html', {'libros': libros})
 
-def pagina2(request):
-    return render(request,'pagina2.html')
+def lista_alumnos(request):
+    alumnos = Alumno.objects.all()
+    return render(request, 'lista_alumnos.html', {'alumnos': alumnos})
